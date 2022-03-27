@@ -6,7 +6,7 @@ from .models import Post, Tag
 
 
 # Create your views here.
-from .utils import ObjectDetailMixin, ObjectCreateMixin
+from .utils import ObjectDetailMixin, ObjectCreateMixin, ObjectUpdateMixin
 
 
 def posts_list(request):
@@ -24,9 +24,10 @@ class PostCreate(ObjectCreateMixin, View):
     template = 'blog/post_create_form.html'
 
 
-def tags_list(request):
-    tags = Tag.objects.all()
-    return render(request,'blog/tags_list.html', context={'tags': tags})
+class PostUpdate(ObjectUpdateMixin, View):
+    model = Post
+    model_form = PostForm
+    template = 'blog/post_update_form.html'
 
 
 class TagDetail(ObjectDetailMixin, View):
@@ -37,3 +38,15 @@ class TagDetail(ObjectDetailMixin, View):
 class TagCreate(ObjectCreateMixin, View):
    model_form = TagForm
    template = 'blog/tag_create.html'
+
+
+class TagUpdate(ObjectUpdateMixin, View):
+    model = Tag
+    model_form = TagForm
+    template = 'blog/tag_update_form.html'
+
+
+def tags_list(request):
+    tags = Tag.objects.all()
+    return render(request,'blog/tags_list.html', context={'tags': tags})
+
